@@ -1,8 +1,11 @@
 import express from "express";
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import { UserModel } from "./db.js";
 const app = express();
 
 app.post("/api/v1/signup", (req, res) => {
-
+//zod validation and hash the password
 })
 
 app.post("/api/v1/signin", (req, res) => {
