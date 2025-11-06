@@ -3,7 +3,6 @@ import { config } from "dotenv";
 config();
 
 const MONGODB_URI = process.env.MONGODB_URI || '';
-//connect with mongodb atlas cluster
 
 export const connectDB = async (): Promise<void> => {
 if (MONGODB_URI==='') {
@@ -14,13 +13,8 @@ try {
     console.log(`MongoDB connected: ${conn.connection.host}`)
 } catch (err) {
 console.error('MongoDB connection error:', err);
-process.exit(1); // exits krdega agr db fail hogya toh. dont start a server without it.
+process.exit(1); 
+// exit krdega agr db fail hogya toh. dont start a server without it.
 }
 };
-
-//graceful shutdown to kill the process
-// process.on('SIGINT', async () => {
-//     await mongoose.connection.close();
-//     console.log('MongoDB disconnected on app termination');
-//     process.exit(0);
-// })
+connectDB();
