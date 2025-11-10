@@ -1,7 +1,9 @@
 import mongoose, {model, Schema} from "mongoose";
 
+
 const UserSchema:Schema = new Schema({
 username: {
+
     type:String,
     required: true,
     unique: true,
@@ -22,6 +24,7 @@ password: {
     type: String,
     required: true,
     minlength: [8, 'password must be at least 8 characters'],
+    select: false,
 }}, {
     timestamps: true,
 }
