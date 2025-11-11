@@ -3,13 +3,13 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../DB/models/User.js";
 import { generateToken } from "../utils/jwt.js";
 import { STATUS_CODES } from "../utils/constants.js";
-import {success, z} from "zod";
+import {z} from "zod";
 //@ts-ignore
 export const signupSchema = z.object({
     body: z.object({
         username:z.string().min(3).max(30),
         password:z.string().min(3,'password too short').max(30),
-        email:z.email().includes('@').min(3),
+        email:z.email().min(3),
     })
 });
 export const signinSchema = z.object({
@@ -34,10 +34,10 @@ export const signinSchema = z.object({
 
    const user = await UserModel.create({username:username, password:hashedPassword, email:email});
 //@ts-ignore
-//    const token = generateToken({username:username, id:user._id.toString()});
+   const token = generateToken({username:username, id:user._id.toString()});
     res.status(STATUS_CODES.CREATED).json({
         success:true,
-        // token,
+         token,
         user: { id: user._id,username:username},
     });
 } catch (error) {
@@ -55,8 +55,8 @@ export const signinSchema = z.object({
         message: 'Invalid credentials',
       });
     }
-    //@ts-ignore
-    const isMatch = await bcrypt.compare(password, user.password);
+    
+    const isMatch = await bcrypt.compare(password, user.password as string);
     if (!isMatch) {
       return res.status(STATUS_CODES.UNAUTHORIZED).json({
         message: 'Invalid credentials',
